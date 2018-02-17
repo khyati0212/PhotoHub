@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewpoint" content="width=device-width, initial-scale-1">
+    <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase-storage.js"></script>
+
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyD370JZvGWA9ayhAkPa6_Gd1B7Nw9qZJwY",
+        authDomain: "photohub12.firebaseapp.com",
+        databaseURL: "https://photohub12.firebaseio.com",
+        projectId: "photohub12",
+        storageBucket: "photohub12.appspot.com",
+        messagingSenderId: "526901491516"
+      };
+      firebase.initializeApp(config);
+    </script>
+      <script src="https://cdn.firebase.com/libs/firebaseui/2.6.0/firebaseui.js"></script>
+      <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.6.0/firebaseui.css" />
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script type="text/javascript" src="index.js"></script>
+    </head>
+
+
+  <body>
+    <h1>PhotoHub</h1>
+    <div class="home">
+      <input type="text" id="title-input" placeholder="Say something about your story"/>
+      <lable for="capture-photo" id="capture-photo-table">
+        <input type="file" accept="video/*|image/*" id="capture-photo" capture/>
+      </lable>
+      <button type="btn btn-primary" id="upload" onclick="uploadFile()">Upload</button>
+    </div>
+    <div class="container" id="contentHolder"></div>
+  </body>
+  <script>
+      var uid;
+    firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+          var displayName = user.displayName;
+          var email = user.email;
+          var photoURL = user.photoURL;
+          uid = user.uid;
+
+        }
+        });
+    //initialize variables
+    var storiesList=document.getElementById("stories"),
+        authElm = document.getElementById("firebase-auth-container"),
+        signinButton =  document.getElementById("signin-button"),
+        signoutButton =  document.getElementById("signout-button"),
+        upload= document.getElementById("upload"),
+        capturePhoto =document.getElementById("capture-photo"),
+        titleInput= document.getElementById("title-input");
+
+        //Initialize firebase
+        var auth=firebase.auth(),
+            storage=firebase.storage(),
+            database=firebase.database();
+            var file;
+
+            $("#capture-photo").on("change",function(event){
+              file=event.target.files[0];
+            });
+
+      //File handling
+        function uploadFile(){
+
+          var fileName=file.name;
+          var storageRef=storage.ref('/images/' + fileName);
+
+          //Upload image
+          var uploadTask = storageRef.put(file);
+          uploadTask.on('state_changed',function(snapshot){
+          }, function(error) {
+            // Handle unsuccessful uploads
+          }, function() {
+            // Handle successful uploads on complete
+            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+            var downloadURL = uploadTask.snapshot.downloadURL;
+            var postKey = database.ref('Posts/').push().key;
+            var updates = {};
+            var postData={
+              url:downloadURL,
+              caption:$("#title-input").val(),
+              user:uid
+            };
+            updates['/posts/' + postKey] = postData;
+            database.ref("Posts/"+postKey)
+            database.ref().update(updates);
+          });
+        };
+
+  </script>
+
+</html>

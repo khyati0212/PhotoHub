@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewpoint" content="width=device-width, initial-scale-1">
+    <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase-auth.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyD370JZvGWA9ayhAkPa6_Gd1B7Nw9qZJwY",
+        authDomain: "photohub12.firebaseapp.com",
+        databaseURL: "https://photohub12.firebaseio.com",
+        projectId: "photohub12",
+        storageBucket: "photohub12.appspot.com",
+        messagingSenderId: "526901491516"
+      };
+      firebase.initializeApp(config);
+    </script>
+
+      <script src="https://cdn.firebase.com/libs/firebaseui/2.6.0/firebaseui.js"></script>
+      <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.6.0/firebaseui.css" />
+      <script type="text/javascript">
+        var uiConfig = {
+          signInSuccessUrl: 'home.html',
+          signInOptions: [
+            // Leave the lines as is for the providers you want to offer your users.
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID
+          ],
+        };
+        // Initialize the FirebaseUI Widget using Firebase.
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+        // The start method will wait until the DOM is loaded.
+        ui.start('#firebaseui-auth-container', uiConfig);
+      </script>
+      </head>
+  <body>
+
+    <h1>PhotoHub</h1>
+
+    <div id="firebaseui-auth-container"></div>
+
+  </body>
+
+</html>
