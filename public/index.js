@@ -17,16 +17,18 @@ function queryDatabase(token){
     var currentRow;
     for(var i=0;i<keys.length;i++){
       var currentObject=PostObject[keys[i]];
-      if(i%3==0){
+
         currentRow=document.createElement("div");
         $(currentRow).addClass("row");
         $("#contentHolder").append(currentRow);
-      }
+      
 
       var col=document.createElement("div");
       $(col).addClass("col-lg-4");
       var image=document.createElement("img");
       image.src=currentObject.url;
+      image.width="400";
+      image.height="400";
       $(image).addClass("contentImage");
       var p=document.createElement("p");
       $(p).html(currentObject.caption);

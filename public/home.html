@@ -22,14 +22,19 @@
       firebase.initializeApp(config);
     </script>
       <script src="https://cdn.firebase.com/libs/firebaseui/2.6.0/firebaseui.js"></script>
-      <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.6.0/firebaseui.css" />
+      
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
       <script type="text/javascript" src="index.js"></script>
     </head>
 
 
   <body>
-    <h1>PhotoHub</h1>
+    <div class="container">
+    <nav class="navbar navbar-expand-sm bg-light navbar-light fixed-top nav-justified">
+<h1 class="navbar-brand col">PhotoHub</h1>
     <div class="home">
       <input type="text" id="title-input" placeholder="Say something about your story"/>
       <lable for="capture-photo" id="capture-photo-table">
@@ -37,6 +42,8 @@
       </lable>
       <button type="btn btn-primary" id="upload" onclick="uploadFile()">Upload</button>
     </div>
+  </nav>
+</div>
     <div class="container" id="contentHolder"></div>
   </body>
   <script>
